@@ -18,8 +18,6 @@ public partial class MainWindow
     private static readonly ChangelogWindow ChangelogWindow = new();
     private static readonly CreditWindow CreditWindow = new();
     public static bool IsMinecraftRunning;
-    public static bool IsCustomDll;
-    public static string CustomDllName;
 
     public MainWindow()
     {
@@ -71,9 +69,6 @@ public partial class MainWindow
             SetStatusLabel.Default();
             return;
         }
-
-        CustomDllName = openFileDialog.SafeFileName;
-        CustomDllName = CustomDllName.Replace(".dll", "");
         
         if (Process.GetProcessesByName("Minecaft.Windows").Length != 0) return;
 
@@ -86,7 +81,6 @@ public partial class MainWindow
             break;
         }
 
-        IsCustomDll = true;
         await Injector.WaitForModules();
         Injector.Inject(openFileDialog.FileName);
         IsMinecraftRunning = true;
@@ -100,7 +94,6 @@ public partial class MainWindow
         DiscordPresence.DiscordClient.UpdateState("Idling in the client");
         Application.Current.Dispatcher.Invoke(SetStatusLabel.Default);
         IsMinecraftRunning = false;
-        if (IsCustomDll) IsCustomDll = false;
     }
 
     private void ChangelogButton_OnClick(object sender, RoutedEventArgs e)
