@@ -8,13 +8,13 @@ namespace LatiteInjector.Utils;
 
 public static class Updater
 {
-    private const string INJECTOR_CURRENT_VERSION = "4";
+    private const string InjectorCurrentVersion = "4";
     private static string? _selectedVersion;
-    private const string INJECTOR_VERSION_URL =
+    private const string InjectorVersionUrl =
         "https://raw.githubusercontent.com/Imrglop/Latite-Releases/main/launcher_version";
-    private const string DLL_VERSION_URL =
+    private const string DllVersionUrl =
         "https://raw.githubusercontent.com/Imrglop/Latite-Releases/main/latest_version.txt";
-    private const string INJECTOR_EXECUTABLE_URL =
+    private const string InjectorExecutableUrl =
         "https://github.com/Imrglop/Latite-Releases/raw/main/injector/Injector.exe";
 
     private static readonly WebClient? Client = new WebClient();
@@ -25,7 +25,7 @@ public static class Updater
         try
         {
             var latestVersion = Client?.DownloadString(
-                INJECTOR_VERSION_URL);
+                InjectorVersionUrl);
             latestVersion = latestVersion?.Replace("\n", "");
             return latestVersion;
         }
@@ -41,7 +41,7 @@ public static class Updater
         try
         {
             var latestVersion = Client?.DownloadString(
-                DLL_VERSION_URL);
+                DllVersionUrl);
             latestVersion = latestVersion?.Replace("\n", "");
             return latestVersion;
         }
@@ -56,7 +56,7 @@ public static class Updater
     {
         var latestVersion = GetLatestInjectorVersion();
         
-        if (Convert.ToInt32(INJECTOR_CURRENT_VERSION) >= Convert.ToInt32(latestVersion)) return;
+        if (Convert.ToInt32(InjectorCurrentVersion) >= Convert.ToInt32(latestVersion)) return;
         
         var result =
             MessageBox.Show("The injector is outdated! Do you want to download the newest version?",
@@ -68,7 +68,7 @@ public static class Updater
         var path = $"./{fileName}";
         if (File.Exists(path))
             File.Delete(path);
-        Client?.DownloadFile(INJECTOR_EXECUTABLE_URL, path);
+        Client?.DownloadFile(InjectorExecutableUrl, path);
         Process.Start(fileName);
         Application.Current.Shutdown();
     }
