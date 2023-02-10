@@ -4,7 +4,6 @@ using System.Diagnostics;
 using System.Windows;
 using System.Windows.Input;
 using LatiteInjector.Utils;
-using Microsoft.Win32;
 
 namespace LatiteInjector;
 
@@ -32,7 +31,7 @@ public partial class MainWindow
     private void MinimizeButton_Click(object sender, RoutedEventArgs e) => WindowState = WindowState.Minimized;
     private void WindowToolbar_MouseLeftButtonDown(object sender, MouseButtonEventArgs e) => DragMove();
 
-    private async void LaunchButton_OnLeftClick(object sender, RoutedEventArgs e)
+    private async void LaunchButton_OnClick(object sender, RoutedEventArgs e)
     {
         if (Process.GetProcessesByName("Minecaft.Windows").Length != 0) return;
 
@@ -52,41 +51,6 @@ public partial class MainWindow
         Minecraft.EnableRaisingEvents = true;
         Minecraft.Exited += IfMinecraftExited;
     }
-    
-    private async void LaunchButton_OnRightClick(object sender, RoutedEventArgs e)
-    {
-        SetStatusLabel.Pending("Opening DLL...");
-        
-        OpenFileDialog openFileDialog = new()
-        {
-            Filter = "DLL files (*.dll)|*.dll|All files (*.*)|*.*",
-            RestoreDirectory = true
-        };
-
-        if (openFileDialog.ShowDialog() != true)
-        {
-            SetStatusLabel.Default();
-            return;
-        }
-        
-        if (Process.GetProcessesByName("Minecaft.Windows").Length != 0) return;
-
-        Process.Start("minecraft:");
-
-        while (true)
-        {
-            if (Process.GetProcessesByName("Minecraft.Windows").Length == 0) continue;
-            Minecraft = Process.GetProcessesByName("Minecraft.Windows")[0];
-            break;
-        }
-
-        await Injector.WaitForModules();
-        Injector.Inject(openFileDialog.FileName);
-        IsMinecraftRunning = true;
-
-        Minecraft.EnableRaisingEvents = true;
-        Minecraft.Exited += IfMinecraftExited;
-    }
 
     private static void IfMinecraftExited(object sender, EventArgs e)
     {
@@ -100,7 +64,7 @@ public partial class MainWindow
         ChangelogWindow.Show();
         DiscordPresence.DiscordClient.UpdateState("Reading the changelog");
     }
-
+    
     private void CreditButton_OnClick(object sender, RoutedEventArgs e)
     {
         CreditWindow.Show();
