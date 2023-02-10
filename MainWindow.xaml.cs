@@ -1,6 +1,5 @@
 ﻿using System;
 using System.ComponentModel;
-using System.Data;
 using System.Diagnostics;
 using System.IO;
 using System.Windows;
@@ -37,7 +36,7 @@ public partial class MainWindow
         if (!File.Exists("first_run"))
         {
             _notifyIcon.BalloonTipText =
-                "Latite Injector has been minimized. Click the tray icon to bring back the Latite Injector. Right click the tray icon to exit the Latite Injector";
+                "Latite Client has been minimized. Click the tray icon to bring back Latite Client. Right click the tray icon to exit Latite Client";
             _notifyIcon.BalloonTipTitle = "I'm over here!";
             File.Create("first_run");
         }
@@ -48,7 +47,7 @@ public partial class MainWindow
             _notifyIcon.BalloonTipTitle = null;
         }
         _notifyIcon.Text = "Latite Client";
-        _notifyIcon.Icon = new System.Drawing.Icon(@"..\..\..\..\Assets\latite.ico");
+        _notifyIcon.Icon = new System.Drawing.Icon(@"..\..\..\latite.ico");
         _notifyIcon.Click += NotifyIconClick;
         
         _contextMenu.MenuItems.AddRange(new[] {_menuItem});
@@ -65,7 +64,6 @@ public partial class MainWindow
         CreditWindow.Closing += OnClosing;
         AppDomain.CurrentDomain.UnhandledException += OnUnhandledException;
         Updater.GetInjectorChangelog();
-        Updater.GetClientChangelog();
     }
 
     private void OnStateChanged(object sender, EventArgs args)
@@ -112,7 +110,7 @@ public partial class MainWindow
 
     private void CloseButton_Click(object sender, RoutedEventArgs e) =>
         WindowState = WindowState.Minimized;
-    private void Window_MouseLeftButtonDown(object sender, MouseButtonEventArgs e) => DragMove();
+    private void WindowToolbar_MouseLeftButtonDown(object sender, MouseButtonEventArgs e) => DragMove();
 
     public static string? GetLine(string? text, int lineNo)
     {

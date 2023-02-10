@@ -12,7 +12,7 @@ public static class SetStatusLabel
     public static void Default()
     {
         if (StatusLabel == null) return;
-        StatusLabel.Foreground = Brushes.White;
+        StatusLabel.Foreground = Brushes.AliceBlue;
         StatusLabel.Content = "Status: Idle";
     }
 
