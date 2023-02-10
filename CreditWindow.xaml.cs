@@ -19,10 +19,7 @@ namespace LatiteInjector
         {
             Hide();
             if (!IsMinecraftRunning)
-            {
                 DiscordPresence.DiscordClient.UpdateState("Idling in the client");
-                return;
-            }
             DiscordPresence.DiscordClient.UpdateState(
                 IsCustomDll
                     ? $"Playing Minecraft {Updater.GetSelectedVersion()} with {CustomDllName}"

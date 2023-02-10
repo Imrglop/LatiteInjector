@@ -86,13 +86,7 @@ public partial class MainWindow
     private void NotifyIconClick(object sender, EventArgs e)
     {
         Show();
-        if (!IsMinecraftRunning)
-            DiscordPresence.DiscordClient.UpdateState("Idling in the client");
-        else if (IsMinecraftRunning)
-            DiscordPresence.DiscordClient.UpdateState(
-                IsCustomDll
-                    ? $"Playing Minecraft {Updater.GetSelectedVersion()} with {CustomDllName}"
-                    : $"Playing Minecraft {Updater.GetSelectedVersion()} with Latite");
+        DiscordPresence.DiscordClient.UpdateState("Idling in the client");
         WindowState = _storedWindowState;
     }
 
